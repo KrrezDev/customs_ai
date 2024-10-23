@@ -74,4 +74,16 @@ export class PetService {
       })
     );
   }
+  updatePet(petId: string, pet: Partial<Pet>, imageFile: File | null = null): Observable<Pet> {
+    if (imageFile) {
+      return this.http.put<Pet>(`${this.API_URL}/${petId}`, pet).pipe(
+        switchMap(updatedPet =>
+          this.uploadPetImage(petId, imageFile).pipe(
+            map(() => updatedPet)
+          )
+        )
+      );
+    }
+    return this.http.put<Pet>(`${this.API_URL}/${petId}`, pet);
+  }
 }

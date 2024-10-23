@@ -21,6 +21,9 @@ interface MenuItem {
 export class MenuCardsComponent implements OnInit {
   pets: Pet[] = [];
   showAddPetModal = false;
+  selectedPet: Pet | null = null;
+
+  loadingPetIds: Set<string> = new Set();
 
   constructor(private petService: PetService) {}
 
@@ -59,15 +62,26 @@ export class MenuCardsComponent implements OnInit {
     const fileInput = event.target as HTMLInputElement;
     if (fileInput.files && fileInput.files[0]) {
       const file = fileInput.files[0];
-
+      this.loadingPetIds.add(petId);
       this.petService.uploadAndModifyBackground(petId, file).subscribe({
         next: (response) => {
-          console.log('Image uploaded and modified successfully:', response);
-        },
+          this.loadingPetIds.delete(petId);        },
         error: (error) => {
-          console.error('Error uploading and modifying image:', error);
-        }
+          this.loadingPetIds.delete(petId);        }
       });
     }
   }
+
+  isLoading(petId: string): boolean {
+    return this.loadingPetIds.has(petId);
+  }
+  openEditModal(pet: Pet): void {
+    this.selectedPet = pet;
+    this.showAddPetModal = true;
+  }
+
+  onPetUpdated(): void {
+    this.loadPets();
+  }
 }
+
