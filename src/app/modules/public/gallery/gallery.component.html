@@ -1,6 +1,14 @@
 <div class="gallery-wrapper">
   <div class="gallery-container">
-    <div class="gallery-grid">
+    <div *ngIf="isLoading" class="loading-state">
+      Loading gallery...
+    </div>
+
+    <div *ngIf="error" class="error-state">
+      {{ error }}
+    </div>
+
+    <div *ngIf="!isLoading && !error" class="gallery-grid">
       <div *ngFor="let photo of photos" class="gallery-item">
         <div class="image-wrapper">
           <img
@@ -13,6 +21,10 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div *ngIf="!isLoading && !error && photos.length === 0" class="empty-state">
+      No images in gallery
     </div>
   </div>
 </div>
