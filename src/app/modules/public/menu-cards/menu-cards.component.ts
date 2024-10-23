@@ -88,7 +88,7 @@ export class MenuCardsComponent implements OnInit {
   toggleModal(): void {
     this.showAddPetModal = !this.showAddPetModal;
     if (!this.showAddPetModal) {
-      this.selectedPet = null; // Resetear el pet seleccionado al cerrar el modal
+      this.selectedPet = null;
     }
   }
 
