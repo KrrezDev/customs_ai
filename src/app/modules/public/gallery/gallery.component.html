@@ -1,0 +1,18 @@
+<div class="gallery-wrapper">
+  <div class="gallery-container">
+    <div class="gallery-grid">
+      <div *ngFor="let photo of photos" class="gallery-item">
+        <div class="image-wrapper">
+          <img
+            [src]="photo.src"
+            [alt]="photo.alt"
+            class="gallery-image"
+            loading="lazy">
+          <div class="image-overlay">
+            <span class="image-title">{{photo.alt}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

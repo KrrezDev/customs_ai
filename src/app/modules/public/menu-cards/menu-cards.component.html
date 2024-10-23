@@ -1,0 +1,50 @@
+<div class="menu-container">
+  <div *ngFor="let pet of pets" class="menu-card">
+    <div class="menu-card-content">
+      <div class="menu-image-container">
+        <img [src]="pet.imageUrl" [alt]="pet.name" class="menu-image">
+      </div>
+      <div class="menu-details">
+        <h2 class="menu-title">{{pet.name}}</h2>
+        <div class="pet-info">
+          <div class="info-item">
+            <span class="info-label">Type:</span>
+            <span class="info-value">{{pet.type || 'Not specified'}}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Age:</span>
+            <span class="info-value">{{pet.age}} {{pet.age === 1 ? 'year' : 'years'}}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Gender:</span>
+            <span class="info-value">{{pet.gender || 'Not specified'}}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Species:</span>
+            <span class="info-value">{{pet.species || 'Not specified'}}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Breed:</span>
+            <span class="info-value">{{pet.breed || 'Not specified'}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Pet Card -->
+  <div class="menu-card add-pet-card" (click)="toggleModal()">
+    <div class="menu-card-content">
+      <div class="add-pet-content">
+        <span class="plus-icon">+</span>
+        <h2 class="menu-title">Add New Pet</h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-add-pet-modal
+  [isOpen]="showAddPetModal"
+  (closeModal)="toggleModal()"
+  (petAdded)="loadPets()">
+</app-add-pet-modal>
