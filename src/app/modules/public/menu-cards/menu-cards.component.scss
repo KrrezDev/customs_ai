@@ -142,6 +142,7 @@ $secondary-color: #6FA141;
 }
 
 .action-btn {
+  cursor: pointer;
   padding: 0.6rem 1.2rem;
   border: none;
   border-radius: 8px;
@@ -150,8 +151,11 @@ $secondary-color: #6FA141;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  cursor: pointer;
   transition: all 0.3s ease;
+
+  label {
+    cursor: pointer; // Ensure the label has a pointer cursor
+  }
 
   &.edit-btn {
     background-color: #E3E8FF;
