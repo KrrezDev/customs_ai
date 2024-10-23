@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {CommonModule, NgForOf, NgIf} from "@angular/common";
 import {Photo} from "../../../../interfaces/pet.interface";
 import {PetService} from "../../../../services/pet.service";
@@ -15,32 +15,37 @@ import {catchError, finalize, map, of, tap} from "rxjs";
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss'
 })
-export class GalleryComponent implements OnInit {
+export class GalleryComponent implements OnChanges {
+  @Input() petId: string | null = null;
   photos: Photo[] = [];
   isLoading = true;
   error: string | null = null;
 
   constructor(private petService: PetService) {}
 
-  ngOnInit() {
-    const petId = '67184a07a34fed66b08ead3a';
-    this.loadGallery(petId);
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['petId'] && this.petId) {
+      console.log('Loading gallery for pet:', this.petId);
+      this.loadGallery(this.petId);
+    }
   }
 
   private loadGallery(petId: string) {
     this.isLoading = true;
     this.error = null;
+    this.photos = []; // Limpiar fotos anteriores
 
     this.petService.getPetGallery(petId).pipe(
-      map(galleryImages => galleryImages
-        .filter(image => image.imageUrl)
-        .map(image => ({
+      tap(response => {
+        console.log('Raw API response:', response); // Para debug
+      }),
+      map(response => {
+        // Verificar si la respuesta es un array
+        const galleryImages = Array.isArray(response) ? response : [];
+        return galleryImages.filter(image => image && image.imageUrl).map(image => ({
           src: image.imageUrl,
           alt: image.title || image.description || 'Pet photo'
-        }))
-      ),
-      tap(photos => {
-        console.log('Mapped photos:', photos);
+        }));
       }),
       catchError(error => {
         console.error('Error loading gallery:', error);
@@ -53,12 +58,14 @@ export class GalleryComponent implements OnInit {
     ).subscribe({
       next: (photos) => {
         this.photos = photos;
-        console.log('Final photos array:', this.photos);
+        console.log('Processed photos array:', this.photos);
       },
       error: (error) => {
         console.error('Subscription error:', error);
         this.error = 'Failed to load gallery images';
+        this.photos = [];
       }
     });
   }
 }
+

@@ -33,7 +33,27 @@ export class PetService {
   }
 
   getPetGallery(petId: string): Observable<PetGalleryImage[]> {
-    return this.http.get<PetGalleryImage[]>(`${this.API_URL}/${petId}/gallery`);
+    const params = new HttpParams()
+      .set('page', '0')
+      .set('size', '6');
+
+    return this.http.get<PetGalleryImage[]>(`${this.API_URL}/${petId}/gallery`, { params }).pipe(
+      tap(response => console.log('API Response:', response)), // Para debug
+      map(response => {
+        if (response && typeof response === 'object' && 'content' in response) {
+          return (response as any).content;
+        }
+        if (Array.isArray(response)) {
+          return response;
+        }
+        console.warn('Unexpected API response format:', response);
+        return [];
+      }),
+      catchError(error => {
+        console.error('Service error:', error);
+        throw error;
+      })
+    );
   }
 
   createPetWithImage(pet: Omit<Pet, 'id'>, imageFile: File | null): Observable<Pet> {

@@ -35,10 +35,10 @@
       </div>
     </div>
     <div *ngIf="activeTab === 'menu'">
-      <app-menu-cards></app-menu-cards>
+      <app-menu-cards (gallerySelected)="onGallerySelected($event)"></app-menu-cards>
     </div>
     <div *ngIf="activeTab === 'gallery'" class="gallery-section">
-      <app-gallery></app-gallery>
+      <app-gallery [petId]="selectedPetId"></app-gallery>
     </div>
   </div>
 </main>

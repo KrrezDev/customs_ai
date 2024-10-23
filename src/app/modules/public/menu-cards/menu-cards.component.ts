@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {NgForOf, NgIf} from "@angular/common";
 import {AddPetModalComponent} from "../add-pet-modal/add-pet-modal.component";
 import {Pet} from "../../../../interfaces/pet.interface";
@@ -25,6 +25,9 @@ export class MenuCardsComponent implements OnInit {
   showAddPetModal = false;
   selectedPet: Pet | null = null;
   loadingPetIds: Set<string> = new Set();
+  showGalleryModal = false;
+  selectedPetId: string | null = null;
+  @Output() gallerySelected = new EventEmitter<string>();
 
   currentPage = 1;
   totalPages = 1;
@@ -123,5 +126,13 @@ export class MenuCardsComponent implements OnInit {
   onPetUpdated(): void {
     this.loadPets();
     this.toggleModal();
+  }
+  openGallery(petId: string): void {
+    this.gallerySelected.emit(petId);
+  }
+
+  closeGallery(): void {
+    this.showGalleryModal = false;
+    this.selectedPetId = null;
   }
 }

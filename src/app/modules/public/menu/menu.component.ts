@@ -14,8 +14,14 @@ import {NgIf} from "@angular/common";
 })
 export class MenuComponent {
   activeTab: 'menu' | 'gallery' = 'menu';
+  selectedPetId: string | null = null;
 
   setActiveTab(tab: 'menu' | 'gallery'): void {
     this.activeTab = tab;
+  }
+
+  onGallerySelected(petId: string): void {
+    this.selectedPetId = petId;
+    this.setActiveTab('gallery');
   }
 }
