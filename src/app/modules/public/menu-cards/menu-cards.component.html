@@ -27,12 +27,34 @@
             <span class="info-label">Breed:</span>
             <span class="info-value">{{pet.breed || 'Not specified'}}</span>
           </div>
+          <div class="action-buttons">
+            <button class="action-btn edit-btn">
+              <i class="fas fa-edit"></i>
+              Edit
+            </button>
+            <button class="action-btn upload-btn">
+              <input
+                type="file"
+                [id]="'fileInput-' + pet.id"
+                (change)="handleFileUpload($event, pet.id)"
+                accept="image/*"
+                style="display: none"
+              >
+              <label [for]="'fileInput-' + pet.id" style="cursor: pointer">
+                <i class="fas fa-upload"></i>
+                Upload
+              </label>
+            </button>
+            <button class="action-btn modify-btn">
+              <i class="fas fa-images"></i>
+              Modify
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Add Pet Card -->
   <div class="menu-card add-pet-card" (click)="toggleModal()">
     <div class="menu-card-content">
       <div class="add-pet-content">

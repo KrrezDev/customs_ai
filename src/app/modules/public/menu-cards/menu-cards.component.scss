@@ -5,7 +5,8 @@ $accent-color: #FF784D;
 $secondary-color: #6FA141;
 $dark-card-bg: #936DF6;
 $dark-text: #ffffff;
-
+$button-hover: #8257E5;
+$button-active: #7142D3;
 .menu-container {
   max-width: 1000px;
   margin: 0 auto;
@@ -162,5 +163,75 @@ $dark-text: #ffffff;
         display: none;
       }
     }
+  }
+}
+
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.action-btn {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  i {
+    font-size: 1rem;
+  }
+
+  &.edit-btn {
+    background-color: #E3E8FF;
+    color: $primary-color;
+
+    &:hover {
+      background-color: #D1D8FF;
+      transform: translateY(-2px);
+    }
+  }
+
+  &.upload-btn {
+    background-color: #E5FFE3;
+    color: $secondary-color;
+
+    &:hover {
+      background-color: #D1FFD1;
+      transform: translateY(-2px);
+    }
+  }
+
+  &.modify-btn {
+    background-color: #FFE3E3;
+    color: $accent-color;
+
+    &:hover {
+      background-color: #FFD1D1;
+      transform: translateY(-2px);
+    }
+  }
+}
+@media (max-width: 768px) {
+  .action-buttons {
+    justify-content: center;
+  }
+
+  .action-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+
+  .view-details-btn {
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
   }
 }

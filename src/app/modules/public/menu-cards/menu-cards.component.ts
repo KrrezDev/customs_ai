@@ -54,4 +54,20 @@ export class MenuCardsComponent implements OnInit {
   toggleModal(): void {
     this.showAddPetModal = !this.showAddPetModal;
   }
+
+  handleFileUpload(event: Event, petId: string): void {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files[0]) {
+      const file = fileInput.files[0];
+
+      this.petService.uploadAndModifyBackground(petId, file).subscribe({
+        next: (response) => {
+          console.log('Image uploaded and modified successfully:', response);
+        },
+        error: (error) => {
+          console.error('Error uploading and modifying image:', error);
+        }
+      });
+    }
+  }
 }

@@ -45,4 +45,33 @@ export class PetService {
       })
     );
   }
+
+  uploadToGallery(petId: string, file: File, description?: string, title?: string): Observable<PetGalleryImage> {
+    const formData = new FormData();
+    formData.append('file', file);
+    if (description) formData.append('description', description);
+    if (title) formData.append('title', title);
+
+    return this.http.post<PetGalleryImage>(
+      `${this.API_URL}/${petId}/gallery`,
+      formData
+    );
+  }
+
+  modifyImageBackground(imageId: string): Observable<any> {
+    return this.http.post(
+      `${this.API_URL}/gallery/${imageId}/modify-background`,
+      {}
+    );
+  }
+
+  uploadAndModifyBackground(petId: string, file: File): Observable<any> {
+    return this.uploadToGallery(petId, file).pipe(
+      switchMap(galleryImage => this.modifyImageBackground(galleryImage.id)),
+      catchError(error => {
+        console.error('Error in upload and modify process:', error);
+        throw error;
+      })
+    );
+  }
 }
