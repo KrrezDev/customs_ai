@@ -1,0 +1,44 @@
+<app-navbar></app-navbar>
+<main class="container mx-auto px-4 py-8 relative">
+  <div class="bats-container">
+    <div class="bat bat-1">
+      <img src="assets/svg/bat.svg" alt="Bat" class="bat-svg">
+    </div>
+    <div class="bat bat-2">
+      <img src="assets/svg/bat.svg" alt="Bat" class="bat-svg">
+    </div>
+    <div class="bat bat-3">
+      <img src="assets/svg/bat.svg" alt="Bat" class="bat-svg">
+    </div>
+    <div class="bat bat-4">
+      <img src="assets/svg/bat.svg" alt="Bat" class="bat-svg">
+    </div>
+    <div class="bat bat-5">
+      <img src="assets/svg/bat.svg" alt="Bat" class="bat-svg">
+    </div>
+  </div>
+  <div class="tabs-container">
+    <div class="tabs-header">
+      <div class="tabs-wrapper">
+        <button
+          [class.active]="activeTab === 'menu'"
+          (click)="setActiveTab('menu')"
+          class="tab-button">
+          <span class="tab-text">Menu</span>
+        </button>
+        <button
+          [class.active]="activeTab === 'gallery'"
+          (click)="setActiveTab('gallery')"
+          class="tab-button">
+          <span class="tab-text">Gallery</span>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="activeTab === 'menu'">
+      <app-menu-cards></app-menu-cards>
+    </div>
+    <div *ngIf="activeTab === 'gallery'" class="gallery-section">
+      <app-gallery></app-gallery>
+    </div>
+  </div>
+</main>

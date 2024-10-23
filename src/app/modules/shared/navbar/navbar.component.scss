@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+$primary-color: #936DF6;
+$background-color: #F8F8F8;
+$text-color: #502092;
+$accent-color: #FF784D;
+$navbar-link :#6FA141;
+$dark-background: #FF784D;
+$dark-text: #ffffff;
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbar {
+  font-family: 'Montserrat', sans-serif;
+  background: $background-color;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 0;
+  transition: all 0.3s ease;
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+
+  .navbar-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .navbar-logo {
+    text-decoration: none;
+    color: $primary-color;
+    font-weight: 700;
+    font-size: 1.8rem;
+    transition: color 0.3s ease;
+  }
+
+  .navbar-menu {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    align-items: center;
+
+    li {
+      margin-left: 2rem;
+    }
+  }
+
+  .navbar-link {
+    color: $text-color;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+
+    &:hover {
+      color: $accent-color;
+      transform: scale(1.1);
+    }
+  }
+
+  .dark-mode-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  .moon-icon {
+    width: 28px;
+    height: 28px;
+    transition: filter 0.3s ease;
+  }
+}
+
+.dark-mode {
+  background: $dark-background;
+  color: $dark-text;
+
+  .navbar {
+    background: $dark-background;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+    .navbar-logo {
+      color: $dark-text;
+    }
+
+    .navbar-link {
+      color: $dark-text;
+
+      &:hover {
+        color: $accent-color;
+      }
+    }
+
+    .moon-icon {
+      filter: invert(1) brightness(100%);
+    }
+  }
+}

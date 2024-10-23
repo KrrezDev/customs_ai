@@ -1,0 +1,87 @@
+<div class="menu-container">
+  <div *ngFor="let pet of pets" class="menu-card">
+    <div class="menu-card-content">
+      <div class="menu-image-container">
+        <img [src]="pet.imageUrl" [alt]="pet.name" class="menu-image">
+      </div>
+      <div class="menu-details">
+        <h2 class="menu-title">{{pet.name}}</h2>
+        <div class="pet-info">
+          <div class="info-item">
+            <span class="info-label">Type:</span>
+            <span class="info-value">{{pet.type || 'Not specified'}}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Age:</span>
+            <span class="info-value">{{pet.age}} {{pet.age === 1 ? 'year' : 'years'}}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Gender:</span>
+            <span class="info-value">{{pet.gender || 'Not specified'}}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Species:</span>
+            <span class="info-value">{{pet.species || 'Not specified'}}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Breed:</span>
+            <span class="info-value">{{pet.breed || 'Not specified'}}</span>
+          </div>
+          <div class="action-buttons">
+            <button class="action-btn edit-btn" (click)="openEditModal(pet)">
+              <i class="fas fa-edit"></i>
+              Edit
+            </button>
+            <button
+              class="action-btn upload-btn"
+              [class.loading]="isLoading(pet.id)"
+              [disabled]="isLoading(pet.id)">
+              <input
+                type="file"
+                [id]="'fileInput-' + pet.id"
+                (change)="handleFileUpload($event, pet.id)"
+                accept="image/*"
+                style="display: none"
+                [disabled]="isLoading(pet.id)"
+              >
+              <label [for]="'fileInput-' + pet.id" [class.loading]="isLoading(pet.id)">
+                <ng-container *ngIf="!isLoading(pet.id)">
+                  <i class="fas fa-upload"></i>
+                  Upload
+                </ng-container>
+                <div *ngIf="isLoading(pet.id)" class="spinner">
+                  <div class="spinner-circle"></div>
+                </div>
+              </label>
+            </button>
+            <button class="action-btn modify-btn">
+              <i class="fas fa-images"></i>
+            Gallery
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="menu-card add-pet-card" (click)="toggleModal()">
+    <div class="menu-card-content">
+      <div class="add-pet-content">
+        <span class="plus-icon">+</span>
+        <h2 class="menu-title">Add New Pet</h2>
+      </div>
+    </div>
+  </div>
+</div>
+<app-pagination
+  [currentPage]="currentPage - 1"
+  [totalPages]="totalPages"
+  (pageChange)="onPageChange($event)">
+</app-pagination>
+<app-add-pet-modal
+  [isOpen]="showAddPetModal"
+  [petToEdit]="selectedPet"
+  (closeModal)="toggleModal()"
+  (petAdded)="loadPets()"
+  (petUpdated)="onPetUpdated()">
+</app-add-pet-modal>

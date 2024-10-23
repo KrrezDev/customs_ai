@@ -1,1 +1,119 @@
-/* You can add global styles to this file, and also import other style files */
+// Variables globales
+$light-bg: #f5f5f5;
+$light-text: #1a1a1a;
+$dark-bg: #FF784D; // Asegúrate de que este color coincida con el deseado para el fondo
+$dark-text: #ffffff;
+$accent-color: #1d925c;
+
+// Estilos base
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: $light-bg;
+  color: $light-text;
+  transition: all 0.3s ease;
+  min-height: 100vh;
+}
+
+// Estructura de la aplicación
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+router-outlet + * {
+  flex: 1 0 auto;
+}
+
+app-footer {
+  flex-shrink: 0;
+}
+
+// Modo oscuro
+body.dark-mode {
+  background-color: $dark-bg !important;
+  color: $dark-text !important;
+
+  // Navbar específico en modo oscuro
+  .navbar {
+    background-color: $dark-bg !important;
+    color: $dark-text !important;
+
+    .navbar-link {
+      color: $dark-text !important;
+
+      &:hover {
+        color: lighten($dark-bg, 30%) !important;
+      }
+    }
+
+    .navbar-logo {
+      color: $dark-text !important;
+    }
+
+    .moon-icon {
+      filter: invert(1) brightness(100%);
+    }
+  }
+
+  // Contenedores y elementos
+  .about-container {
+    background-color: darken($dark-bg, 5%) !important;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: $dark-text !important;
+  }
+
+  p {
+    color: $dark-text !important;
+  }
+
+  // Botones en modo oscuro
+  button {
+    border-color: $dark-text !important;
+  }
+
+  .resume-btn {
+    background-color: $dark-text;
+    color: $dark-bg;
+
+    &:hover {
+      background-color: transparent;
+      color: $dark-text;
+      border-color: $dark-text;
+    }
+  }
+
+  .contact-btn {
+    color: $dark-text;
+    border-color: $dark-text;
+
+    &:hover {
+      background-color: $dark-text;
+      color: $dark-bg !important;
+    }
+  }
+
+  // Inputs y formularios
+  input, textarea, select {
+    background-color: darken($dark-bg, 5%);
+    color: $dark-text;
+    border-color: lighten($dark-bg, 10%);
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  // Cards o contenedores
+  .card, .container, .box {
+    background-color: darken($dark-bg, 3%);
+    color: $dark-text;
+  }
+}
