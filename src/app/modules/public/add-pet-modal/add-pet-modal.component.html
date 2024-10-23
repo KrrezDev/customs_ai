@@ -1,7 +1,7 @@
 <div class="modal-overlay" [class.show]="isOpen" (click)="close()">
   <div class="modal-container" (click)="$event.stopPropagation()">
     <div class="modal-header">
-      <h2>Añadir Nueva Mascota</h2>
+      <h2>Add New Pet</h2>
       <button class="close-button" (click)="close()">×</button>
     </div>
 
@@ -9,7 +9,16 @@
       <div class="form-grid">
         <div class="avatar-section">
           <div class="avatar">
-            <img src="/api/placeholder/128/128" alt="Pet avatar" class="avatar-image">
+            <img [src]="previewUrl" alt="Pet avatar" class="avatar-image">
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onFileSelected($event)"
+              id="imageUpload"
+              class="file-input">
+            <label for="imageUpload" class="upload-button">
+              Select Image
+            </label>
           </div>
         </div>
 
@@ -18,20 +27,20 @@
             <label for="name">Name</label>
             <input type="text" id="name" formControlName="name" class="form-control">
             <div class="error-message" *ngIf="petForm.get('name')?.touched && petForm.get('name')?.invalid">
-              The name is required
+              Name is required
             </div>
           </div>
 
           <div class="form-group">
-            <label for="type">Tipo</label>
+            <label for="type">Type</label>
             <select id="type" formControlName="type" class="form-control">
-              <option value="">Seleccione un tipo</option>
+              <option value="">Select a type</option>
               <option *ngFor="let type of petTypes" [value]="type.value">
                 {{type.label}}
               </option>
             </select>
             <div class="error-message" *ngIf="petForm.get('type')?.touched && petForm.get('type')?.invalid">
-              The type is required
+              Type is required
             </div>
           </div>
 
@@ -39,7 +48,7 @@
             <label for="species">Species</label>
             <input type="text" id="species" formControlName="species" class="form-control">
             <div class="error-message" *ngIf="petForm.get('species')?.touched && petForm.get('species')?.invalid">
-              The species is required
+              Species is required
             </div>
           </div>
 
@@ -47,7 +56,7 @@
             <label for="age">Age</label>
             <input type="number" id="age" formControlName="age" class="form-control">
             <div class="error-message" *ngIf="petForm.get('age')?.touched && petForm.get('age')?.invalid">
-              The age is required and must be greater than 0
+              Age is required and must be greater than 0
             </div>
           </div>
 
@@ -60,7 +69,7 @@
               </option>
             </select>
             <div class="error-message" *ngIf="petForm.get('gender')?.touched && petForm.get('gender')?.invalid">
-             The gender is required
+              Gender is required
             </div>
           </div>
 
@@ -68,7 +77,7 @@
             <label for="breed">Breed</label>
             <input type="text" id="breed" formControlName="breed" class="form-control">
             <div class="error-message" *ngIf="petForm.get('breed')?.touched && petForm.get('breed')?.invalid">
-             The breed is required
+              Breed is required
             </div>
           </div>
         </div>

@@ -23,17 +23,19 @@ export class AddPetModalComponent {
   @Output() petAdded = new EventEmitter<void>();
 
   petForm: FormGroup;
+  selectedImage: File | null = null;
+  previewUrl: string = '/api/placeholder/128/128';
 
   petTypes: PetType[] = [
-    { value: 'Perro', label: 'Perro' },
-    { value: 'Gato', label: 'Gato' },
-    { value: 'Ave', label: 'Ave' },
-    { value: 'Otro', label: 'Otro' }
+    { value: 'Dog', label: 'Dog' },
+    { value: 'Cat', label: 'Cat' },
+    { value: 'Bird', label: 'Bird' },
+    { value: 'Other', label: 'Other' }
   ];
 
   genderTypes: PetType[] = [
-    { value: 'Macho', label: 'Macho' },
-    { value: 'Hembra', label: 'Hembra' }
+    { value: 'Male', label: 'Male' },
+    { value: 'Female', label: 'Female' }
   ];
 
   constructor(
@@ -47,13 +49,28 @@ export class AddPetModalComponent {
       age: ['', [Validators.required, Validators.min(0)]],
       gender: ['', [Validators.required]],
       breed: ['', [Validators.required]],
-      imageUrl: [''] // Valor por defecto para la imagen
+      imageUrl: ['']
     });
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      this.selectedImage = file;
+
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.previewUrl = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 
   onSubmit() {
     if (this.petForm.valid) {
-      this.petService.createPet(this.petForm.value).subscribe({
+      this.petService.createPetWithImage(this.petForm.value, this.selectedImage).subscribe({
         next: () => {
           this.petAdded.emit();
           this.close();
@@ -67,8 +84,8 @@ export class AddPetModalComponent {
 
   close() {
     this.closeModal.emit();
-    this.petForm.reset({
-      imageUrl: '/api/placeholder/128/128'
-    });
+    this.petForm.reset();
+    this.selectedImage = null;
+    this.previewUrl = '/api/placeholder/128/128';
   }
 }
