@@ -73,7 +73,11 @@
     </div>
   </div>
 </div>
-
+<app-pagination
+  [currentPage]="currentPage - 1"
+  [totalPages]="totalPages"
+  (pageChange)="onPageChange($event)">
+</app-pagination>
 <app-add-pet-modal
   [isOpen]="showAddPetModal"
   [petToEdit]="selectedPet"

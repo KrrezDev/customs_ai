@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {catchError, map, Observable, of, switchMap} from 'rxjs';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {catchError, map, Observable, of, switchMap, tap} from 'rxjs';
 import {Pet, PetGalleryImage} from '../interfaces/pet.interface';
+import {PageResponse} from "../interfaces/pagination.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,13 @@ export class PetService {
 
   constructor(private http: HttpClient) {}
 
-  getPets(): Observable<Pet[]> {
-    return this.http.get<Pet[]>(this.API_URL);
+
+  getPets(page: number = 1, size: number = 3): Observable<Pet[]> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Pet[]>(this.API_URL, { params });
   }
 
   createPet(pet: Omit<Pet, 'id'>): Observable<Pet> {
