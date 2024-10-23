@@ -1,17 +1,18 @@
 {
   "version": 2,
-  "routes": [
+  "rewrites": [
     {
       "source": "/api/:path*",
       "destination": "https://pet-ai-3zid.onrender.com/:path*"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ],
-  "env": {
-    "PRODUCTION": "true",
-    "API_URL": "https://pet-ai-3zid.onrender.com"
-  }
+  "routes": [
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
 }
