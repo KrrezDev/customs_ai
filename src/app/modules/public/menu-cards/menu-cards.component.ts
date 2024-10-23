@@ -124,5 +124,4 @@ export class MenuCardsComponent implements OnInit {
     this.loadPets();
     this.toggleModal();
   }
-
 }
