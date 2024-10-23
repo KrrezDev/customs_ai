@@ -3,12 +3,13 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {catchError, map, Observable, of, switchMap, tap} from 'rxjs';
 import {Pet, PetGalleryImage} from '../interfaces/pet.interface';
 import {PageResponse} from "../interfaces/pagination.interface";
+import {environment} from "../environments/environment.prod";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PetService {
-  private readonly API_URL = '/api/pets';
+  private readonly API_URL = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
