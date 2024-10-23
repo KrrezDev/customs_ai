@@ -1,5 +1,14 @@
 <div class="gallery-wrapper">
+  <h2 *ngIf="petName" class="gallery-title">{{ petName }}'s Images</h2>
+
   <div class="gallery-container">
+    <button
+      class="nav-button prev-button"
+      [disabled]="currentPage === 0"
+      (click)="previousPage()">
+      <span class="arrow">←</span>
+    </button>
+
     <div *ngIf="isLoading" class="loading-state">
       Loading gallery...
     </div>
@@ -22,6 +31,13 @@
         </div>
       </div>
     </div>
+
+    <button
+      class="nav-button next-button"
+      [disabled]="currentPage === totalPages - 1"
+      (click)="nextPage()">
+      <span class="arrow">→</span>
+    </button>
 
     <div *ngIf="!isLoading && !error && photos.length === 0" class="empty-state">
       No images in gallery

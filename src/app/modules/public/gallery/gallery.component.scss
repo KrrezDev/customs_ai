@@ -1,21 +1,38 @@
-
 $primary-color: #936DF6;
 $background-color: #F8F8F8;
 $text-color: #502092;
 $accent-color: #FF784D;
 $secondary-color: #6FA141;
 
+.gallery-wrapper {
+  position: relative;
+  padding: 1rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.gallery-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  color: $text-color;
+  font-weight: 600;
+}
+
 .gallery-container {
-  padding: 2rem 0;
+  position: relative;
+  padding: 0.5rem;
   background-color: $background-color;
   display: flex;
   justify-content: center;
+  align-items: center;
 
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(200px, 250px));
     gap: 1.5rem;
-    padding: 0 1rem;
+    padding: 0 2.5rem; // Aumentado para dar espacio a los botones
     max-width: 800px;
     margin: 0 auto;
 
@@ -84,7 +101,7 @@ $secondary-color: #6FA141;
 
   .image-title {
     color: white;
-    font-size: 1rem; // Reduce el tamaño del texto
+    font-size: 1rem;
     font-weight: 600;
     text-align: center;
     padding: 0.5rem;
@@ -95,11 +112,83 @@ $secondary-color: #6FA141;
       transform: translateY(0);
     }
   }
-  .gallery-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
+
+// Estilos mejorados para los botones de navegación
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: $primary-color;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+  &:disabled {
+    background: rgba($primary-color, 0.5);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  &:hover:not(:disabled) {
+    background: darken($primary-color, 10%);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  img {
+    width: 20px;
+    height: 20px;
+    filter: brightness(0) invert(1); // Hace que el SVG sea blanco
   }
 }
 
+.prev-button {
+  left: 0.5rem; // Más cerca de la galería
+}
+
+.next-button {
+  right: 0.5rem; // Más cerca de la galería
+}
+
+// Estados de carga y error
+.loading-state,
+.error-state,
+.empty-state {
+  text-align: center;
+  padding: 2rem;
+  color: $text-color;
+  font-weight: 500;
+}
+
+.error-state {
+  color: $accent-color;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .nav-button {
+    width: 32px;
+    height: 32px;
+
+    img {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .prev-button {
+    left: 0.25rem;
+  }
+
+  .next-button {
+    right: 0.25rem;
+  }
+}

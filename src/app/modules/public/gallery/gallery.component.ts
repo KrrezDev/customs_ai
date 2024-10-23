@@ -1,8 +1,9 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {CommonModule, NgForOf, NgIf} from "@angular/common";
-import {Photo} from "../../../../interfaces/pet.interface";
+import {PetGalleryImage, Photo} from "../../../../interfaces/pet.interface";
 import {PetService} from "../../../../services/pet.service";
 import {catchError, finalize, map, of, tap} from "rxjs";
+import {PageResponse} from "../../../../interfaces/pagination.interface";
 
 @Component({
   selector: 'app-gallery',
@@ -17,55 +18,56 @@ import {catchError, finalize, map, of, tap} from "rxjs";
 })
 export class GalleryComponent implements OnChanges {
   @Input() petId: string | null = null;
+  @Input() petName: string | null = null;
   photos: Photo[] = [];
   isLoading = true;
   error: string | null = null;
+  currentPage = 0;
+  totalPages = 1;
+  pageSize = 6;
 
   constructor(private petService: PetService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['petId'] && this.petId) {
-      console.log('Loading gallery for pet:', this.petId);
-      this.loadGallery(this.petId);
+      this.loadGallery(this.petId, this.currentPage);
     }
   }
 
-  private loadGallery(petId: string) {
+  private loadGallery(petId: string, page: number) {
     this.isLoading = true;
     this.error = null;
-    this.photos = []; // Limpiar fotos anteriores
 
-    this.petService.getPetGallery(petId).pipe(
-      tap(response => {
-        console.log('Raw API response:', response); // Para debug
-      }),
-      map(response => {
-        // Verificar si la respuesta es un array
-        const galleryImages = Array.isArray(response) ? response : [];
-        return galleryImages.filter(image => image && image.imageUrl).map(image => ({
+    this.petService.getPetGallery(petId, page, this.pageSize).subscribe({
+      next: (response: PageResponse<PetGalleryImage>) => {
+        this.photos = response.content.map(image => ({
           src: image.imageUrl,
           alt: image.title || image.description || 'Pet photo'
         }));
-      }),
-      catchError(error => {
-        console.error('Error loading gallery:', error);
-        this.error = 'Failed to load gallery images';
-        return of([]);
-      }),
-      finalize(() => {
-        this.isLoading = false;
-      })
-    ).subscribe({
-      next: (photos) => {
-        this.photos = photos;
-        console.log('Processed photos array:', this.photos);
+        this.totalPages = response.totalPages;
+        this.currentPage = response.number;
       },
       error: (error) => {
         console.error('Subscription error:', error);
         this.error = 'Failed to load gallery images';
         this.photos = [];
+      },
+      complete: () => {
+        this.isLoading = false;
       }
     });
+  }
+
+  nextPage() {
+    if (this.currentPage < this.totalPages - 1 && this.petId) {
+      this.loadGallery(this.petId, this.currentPage + 1);
+    }
+  }
+
+  previousPage() {
+    if (this.currentPage > 0 && this.petId) {
+      this.loadGallery(this.petId, this.currentPage - 1);
+    }
   }
 }
 
