@@ -1,0 +1,22 @@
+<div class="instruction-overlay" (click)="close()">
+  <div class="card" (click)="$event.stopPropagation()">
+    <button class="close-button" (click)="close()">×</button>
+    <div class="card-header">
+      <h2 class="card-title">How to Register Your Pet</h2>
+    </div>
+    <div class="card-content">
+      <div class="steps">
+        <div *ngFor="let step of steps" class="step">
+          <h3 class="step-title">{{step.title}}</h3>
+          <p class="step-description">{{step.description}}</p>
+          <ul class="step-list">
+            <li *ngFor="let item of step.items">{{item}}</li>
+          </ul>
+        </div>
+      </div>
+      <p class="footer-text">
+        Our team will review and create your pet's profile upon submission.
+      </p>
+    </div>
+  </div>
+</div>
