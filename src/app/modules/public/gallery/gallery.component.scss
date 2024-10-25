@@ -3,6 +3,8 @@ $background-color: #F8F8F8;
 $text-color: #502092;
 $accent-color: #FF784D;
 $secondary-color: #6FA141;
+$dark-background: #564caf;
+$dark-text: #ffffff;
 
 .gallery-wrapper {
   position: relative;
@@ -18,6 +20,7 @@ $secondary-color: #6FA141;
   font-size: 1.5rem;
   color: $text-color;
   font-weight: 600;
+  transition: color 0.3s ease;
 }
 
 .gallery-container {
@@ -27,12 +30,13 @@ $secondary-color: #6FA141;
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: background-color 0.3s ease;
 
   .gallery-grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(200px, 250px));
     gap: 1.5rem;
-    padding: 0 2.5rem; // Aumentado para dar espacio a los botones
+    padding: 0 2.5rem;
     max-width: 800px;
     margin: 0 auto;
 
@@ -91,7 +95,7 @@ $secondary-color: #6FA141;
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba($primary-color, 0.7);
+    background: rgba($accent-color, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -114,7 +118,6 @@ $secondary-color: #6FA141;
   }
 }
 
-// Estilos mejorados para los botones de navegación
 .nav-button {
   position: absolute;
   top: 50%;
@@ -146,19 +149,18 @@ $secondary-color: #6FA141;
   img {
     width: 20px;
     height: 20px;
-    filter: brightness(0) invert(1); // Hace que el SVG sea blanco
+    filter: brightness(0) invert(1);
   }
 }
 
 .prev-button {
-  left: 0.5rem; // Más cerca de la galería
+  left: 0.5rem;
 }
 
 .next-button {
-  right: 0.5rem; // Más cerca de la galería
+  right: 0.5rem;
 }
 
-// Estados de carga y error
 .loading-state,
 .error-state,
 .empty-state {
@@ -172,7 +174,6 @@ $secondary-color: #6FA141;
   color: $accent-color;
 }
 
-// Responsive adjustments
 @media (max-width: 768px) {
   .nav-button {
     width: 32px;
@@ -190,5 +191,43 @@ $secondary-color: #6FA141;
 
   .next-button {
     right: 0.25rem;
+  }
+}
+
+:host-context(.dark-mode) {
+  .gallery-wrapper {
+    background-color: $dark-background;
+  }
+
+  .gallery-container {
+    background-color: $dark-background;
+  }
+
+  .gallery-title {
+    color: $dark-text;
+  }
+
+  .image-wrapper {
+    background-color: lighten($dark-background, 5%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .loading-state,
+  .error-state,
+  .empty-state {
+    color: $dark-text;
+  }
+
+  .nav-button {
+    background: lighten($dark-background, 10%);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+    &:disabled {
+      background: rgba($dark-background, 0.5);
+    }
+
+    &:hover:not(:disabled) {
+      background: lighten($dark-background, 15%);
+    }
   }
 }

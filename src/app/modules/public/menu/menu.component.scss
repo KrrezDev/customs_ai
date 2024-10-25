@@ -1,6 +1,8 @@
 $primary-color: #936DF6;
 $background-color: #F8F8F8;
 $text-color: #502092;
+$dark-background: #564caf;
+$dark-text: #ffffff;
 
 .container {
   font-family: 'Montserrat', sans-serif;
@@ -79,9 +81,7 @@ $text-color: #502092;
 .tabs-container {
   position: relative;
   z-index: 2;
-}
 
-.tabs-container {
   .tabs-header {
     display: flex;
     justify-content: center;
@@ -94,6 +94,7 @@ $text-color: #502092;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       display: inline-flex;
       gap: 0.5rem;
+      transition: all 0.3s ease;
     }
 
     .tab-button {
@@ -143,6 +144,43 @@ $text-color: #502092;
   }
 }
 
+:host-context(.dark-mode) {
+  .container {
+    background-color: $dark-background !important;
+    color: $dark-text;
+  }
+
+  .tabs-container {
+    .tabs-header {
+      .tabs-wrapper {
+        background-color: lighten($dark-background, 5%) !important;
+        box-shadow: none;
+      }
+
+      .tab-button {
+        color: $dark-text;
+
+        &::before {
+          background: lighten($dark-background, 10%);
+        }
+
+        &:hover {
+          color: lighten($dark-background, 30%);
+        }
+
+        &.active {
+          background-color: lighten($dark-background, 10%);
+          color: $dark-text;
+        }
+      }
+    }
+  }
+
+  .bat-svg {
+    filter: brightness(2) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  }
+}
+
 @media (max-width: 480px) {
   .tabs-header {
     .tabs-wrapper {
@@ -155,6 +193,7 @@ $text-color: #502092;
     }
   }
 }
+
 .blur-bg {
   filter: blur(8px);
   pointer-events: none;
